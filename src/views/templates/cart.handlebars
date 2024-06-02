@@ -1,0 +1,20 @@
+
+    <h2>Detalles del Carrito</h2>
+    {{#if cart.products}} <!-- Comprueba si hay productos en el carrito -->
+    <ul class="cart-list">
+        {{#each cart.products}}
+        <li class="cart-item">
+            <div class="product-info">
+                <h3 class="product-title">{{this.id_prod.title}}</h3>
+                <p class="product-quantity">Cantidad: {{this.quantity}}</p>
+                <p class="product-price">Precio Unitario: ${{this.id_prod.price}}</p>
+                <p class="product-total">Precio Total: ${{this.id_prod.price * this.quantity}}</p>
+
+            </div>
+        </li>
+        {{/each}}
+    </ul>
+    {{else}}
+    <p>No hay productos en el carrito</p>
+    {{/if}}
+
