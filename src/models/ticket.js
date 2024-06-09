@@ -19,7 +19,9 @@ const ticketSchema = new Schema({
     },
     products: [
         {
-            type: Object,
+            type: Object
+            //type: Schema.Types.ObjetId,
+            //ref: 'products'
             
         }
     ]

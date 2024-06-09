@@ -13,7 +13,7 @@ export const sendEmailChangePassword = async (email, linkChangePassword) => {
     const mailOption = {
         from: "richisusilva1@gmail.com",
         to: email,
-        subject: "Recuperacion de contraseña",
+        subject: "Reestablecer contraseña",
                  
         html: 
         `

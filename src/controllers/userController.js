@@ -1,5 +1,5 @@
-import { userModel } from "../models/user.js";
-import { createRandomUser } from "../mockings/mockingUsers.js";
+import { userModel } from '../models/user.js'
+import { createRandomUser } from '../mockings/mockingUsers.js'
 
 export const getUsers = async (req, res) => {
     try {

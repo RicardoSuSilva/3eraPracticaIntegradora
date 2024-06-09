@@ -1,6 +1,6 @@
-import passport from "passport";
-import { userModel } from '../models/user.js';
-import { sendEmailChangePassword } from '../utils/nodemailer.js';
+import passport from 'passport'
+import { userModel } from '../models/user.js'
+import { sendEmailChangePassword } from '../utils/nodemailer.js'
 import jwt from 'jsonwebtoken'
 import { validatePassword, createHash} from '../utils/bcrypt.js'
 import varenv from '../dotenv.js'
@@ -77,12 +77,12 @@ export const sessionGithub = async (req, res) => {
 export const testJWT = async (req, res) => {
     console.log("Desde testJWT" + req.user)
     if (req.user.rol == 'User')
-        res.status(403).send("Usuario no autorizado")
+        res.status(403).send("Usuario NO autorizado")
     else
         res.status(200).send(req.user)
 }
 
-//ruta Nueva Contraseña
+//ruta reestablecer Contraseña
 export const changePassword = async( req, res) => {
     const { token } = req.params
     const { newPassword}  = req.body
@@ -136,3 +136,18 @@ export const sendEmailPassword = async (req, res) => {
     }
     
 }
+
+/* **********REESTABLECER CONTRASEÑA ********
+
+// // Función asíncrona para manejar la solicitud de cambio de contraseña cuando se hace clic en esta ruta.
+export const changePassword = async (req, res) => {
+    const{email} = req.body//tomamos el email del body
+    sendEmailChangePassword(email, "https://www.google.com/")
+    //cuanda haga click en la ruta voy a consultar el email.
+    // Imprime el correo electrónico del usuario en la consola
+   // console.log(req.user.email)
+    // Verifica si el usuario tiene permisos de 'premium'.
+   // if (req.user.rol == 'premium')
+        res.status(200).send("Tiene un 15% de descuento por ser usuario premium");  
+}
+*/

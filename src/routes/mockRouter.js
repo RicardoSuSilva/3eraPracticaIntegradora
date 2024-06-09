@@ -1,9 +1,9 @@
-import { Router } from "express";
+import { Router } from 'express'
 //import passport from "passport";
-import { generateRandomProducts } from "../controllers/productController.js";
-import { generateRandomUsers } from "../controllers/userController.js";
+import { generateRandomProducts } from '../controllers/productController.js'
+import { generateRandomUsers } from '../controllers/userController.js'
 
-const mockRouter = Router();
+const mockRouter = Router()
 
 mockRouter.get('/mockingproducts', generateRandomProducts)
 

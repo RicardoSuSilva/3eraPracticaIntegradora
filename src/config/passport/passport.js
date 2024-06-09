@@ -17,6 +17,7 @@ const initializePassport = () => {
         try {
             const { first_name, last_name, email, password, age } = req.body
             const findUser = await userModel.findOne({ email: email })
+            
             if (findUser) {
                 return done(null, false)
             } else {

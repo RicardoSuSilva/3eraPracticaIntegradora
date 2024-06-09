@@ -13,7 +13,13 @@ const indexRouter = express.Router()
 
 //Routes
 indexRouter.get('/', (req, res) => {
-    res.status(200).send("Bienvenido/a!")
+    try{
+        res.status(200).send("Bienvenido/a!")     
+    } catch (e) {
+        req.logger.error(`Metodo: ${req.method} en ruta ${req.url} - ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
+        res.status(500).send(e)
+    }
+    
 })
 
 indexRouter.use('/public', express.static(__dirname + '/public'))
@@ -23,8 +29,8 @@ indexRouter.use('/api/cart', cartRouter)
 indexRouter.use('/api/chat', chatRouter, express.static(__dirname + '/public'))
 indexRouter.use('/api/users', userRouter)
 indexRouter.use('/api/session', sessionRouter)
-
-indexRouter.get('/api/mockingproducts', passport.authenticate('jwt', { session: false }), createRandomProduct);
+indexRouter.use('/mockingproducts', mockRouter)
+indexRouter.get('/mockingusers', mockRouter)
 
 
 export default indexRouter

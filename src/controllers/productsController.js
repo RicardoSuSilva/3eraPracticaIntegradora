@@ -1,5 +1,5 @@
-import productModel from "../models/product.js";
-import { createRandomProduct } from "../mockings/mockingProducts.js";
+import productModel from '../models/product.js'
+import { createRandomProduct } from '../mockings/mockingProducts.js'
 
 export const getProducts = async (req, res) => {
     console.log(req)
@@ -38,7 +38,7 @@ export const getProduct = async (req, res) => {
         if (prod)
             res.status(200).send(prod)
         else
-            res.status(404).send("Producto no existe")
+            res.status(404).send("Producto NO existe")
     } catch (error) {
         res.status(500).send(`Error interno del servidor al consultar producto: ${error}`)
     }
@@ -53,7 +53,7 @@ export const createProduct = async (req, res) => {
             const mensaje = await productModel.create(product)
             res.status(201).send(mensaje)
         } else {
-            res.status(403).send("Usuario no autorizado")
+            res.status(403).send("Usuario NO autorizado")
         }
 
 
@@ -70,7 +70,7 @@ export const updateProduct = async (req, res) => {
             const prod = await productModel.findByIdAndUpdate(idProducto, updateProduct)
             res.status(200).send(prod)
         } else {
-            res.status(403).send("Usuario no autorizado")
+            res.status(403).send("Usuario NO autorizado")
         }
 
 

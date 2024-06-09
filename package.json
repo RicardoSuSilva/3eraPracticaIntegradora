@@ -11,6 +11,9 @@
   "keywords": [],
   "author": "Ricardo Su Silva",
   "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.2"
+  },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
     "bcrypt": "^5.1.1",
@@ -31,9 +34,6 @@
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "socket.io": "^4.7.4",
-    "xpress": "^2.4.6"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.2"
+    "winston": "^3.13.0"
   }
 }

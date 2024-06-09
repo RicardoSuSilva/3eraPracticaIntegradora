@@ -14,6 +14,7 @@ import { engine } from 'express-handlebars'
 import { __dirname } from './path.js'
 import { generateRandomProducts } from './controllers/productController.js'
 import { generateRandomUsers } from './controllers/userController.js'
+import { addLogger } from './utils/logger.js'
 
 
 //Configuraciones o declaraciones
@@ -104,8 +105,7 @@ app.get('/deleteCookie', (req, res) => {
     //res.cookie('CookieCokie', '', { expires: new Date(0) })
 })
 
-//Session Routes
-
+// ***** Session Routes *****
 app.get('/session', (req, res) => {
     console.log(req.session)
     if (req.session.counter) {
@@ -113,26 +113,49 @@ app.get('/session', (req, res) => {
         res.send(`Sos el usuario N° ${req.session.counter} en ingresar a la pagina`)
     } else {
         req.session.counter = 1
-        res.send("Sos el primer usuario que ingresa a la pagina")
+        res.send("Bienvenido(a) !!!")
     }
 })
+
+// ***** Logueo de usuarios *****
 
 app.post('/login', (req, res) => {
     const { email, password } = req.body
 
-    if (email == "admin@admin.com" && password == "1234") {
+    if (email == "richisusilva1@gmail.com" && password == varenv.pass) {
         req.session.email = email
         req.session.password = password
-
-
+        logger.info(req.session)
+        return res.send("Login OK")
     }
-    console.log(req.session)
-    res.send("Login OK")
+    
+    res.send("Login Invalido")
 })
 
-// Websockets
+// ***** Routes of logger *****
+app.get('/loggerTest', (req, res) => {
+    try {
+      // Acceder al logger desde la solicitud (req.logger) y registrar un mensaje de cada nivel de log
+      req.logger.debug('Este es un mensaje de depuración');
+      req.logger.http('Este es un mensaje HTTP');
+      req.logger.info('Este es un mensaje de información');
+      req.logger.warning('Este es un mensaje de advertencia');
+      req.logger.error('ERROR');
+      req.logger.fatal('FATAL ERROR');
+  
+      // Enviar una respuesta al cliente
+      res.send('Los logs se han registrado en la consola y en los archivos correspondientes.');
+    } catch (e) {
+      // Registrar el error y enviar una respuesta de error al cliente
+      //CUANDO PASA ACA VA A SER UN FATAL O UN ERROR
+      req.logger.error(`Metodo: ${req.method} en ruta ${req.url} - ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
+      res.status(500).send('Ocurrió un error al registrar los logs.');
+    }
+  });
+  
+// ***** Websockets *****
 io.on('connection', (socket) => {
-    console.log("Conexion con Socket.io")
+    logger.info("Conexion con Socket.io")
 
     socket.on('mensaje', async (mensaje) => {
         try {
@@ -152,13 +175,13 @@ io.on('connection', (socket) => {
 // Endpoint '/mockingproducts' manejado por el controlador
 app.get('/mockingproducts', (req, res) => {
     const products = generateRandomProducts();
-    console.log(products);    
+    logger.info(products);    
     res.json(products);
   });
    
     app.get('/mockingusers', (req, res) => {
     const users = generateRandomUsers();
-    console.log(users);    
+    logger.info(users);    
     res.json(users);
   });
   

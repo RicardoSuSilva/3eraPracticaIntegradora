@@ -1,6 +1,6 @@
-import { Router } from "express";
-import passport from "passport";
-import { login, register, sessionGithub, current, logout, testJWT, sendEmailPassword, changePassword } from "../controllers/sessionController.js";
+import { Router } from 'express'
+import passport from 'passport'
+import { login, register, sessionGithub, current, logout, testJWT, sendEmailPassword, changePassword } from '../controllers/sessionController.js'
 const sessionRouter = Router()
 
 sessionRouter.get('/login', passport.authenticate('login'), login)

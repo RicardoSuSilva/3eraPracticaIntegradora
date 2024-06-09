@@ -1,4 +1,5 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose'
+import cartModel from './cart.js'
 
 const userSchema = new Schema({
     first_name: {
@@ -37,7 +38,7 @@ const userSchema = new Schema({
         ref: 'carts'
     }
 })
-/*Define un middleware pre-save para el modelo userSchema, que se ejecuta antes de guardar un nuevo documento de usuario
+// Define un middleware pre-save para el modelo userSchema, que se ejecuta antes de guardar un nuevo documento de usuario
 userSchema.pre('save', async function (next) {
     try {
         // Crea un nuevo documento de carrito con un array de productos vacío
