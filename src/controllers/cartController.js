@@ -67,14 +67,10 @@ export const createTicket = async (req, res) => {
             if (prodSinStock.length == 0) {
                 const totalPrice = cart.products.reduce((a, b) => (a.price * a.quantity) + (b.price * b.quantity), 0);
                 
-                let productPrice = producto.price * prod.quantity;
-
                 // Aplicar descuento del 15% si el cliente es premium
                 if (req.user && req.user.rol === "Premium") {
-                    productPrice *= 0.85; // Aplicar el descuento del 15%
+                    totalPrice *= 0.85; // Aplicar el descuento del 15%
                 }
-
-                totalPrice += productPrice;
             }
                 // Genera un nuevo ticket
                 const newTicket = await ticketModel.create({

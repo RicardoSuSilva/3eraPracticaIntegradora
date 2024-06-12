@@ -9,7 +9,7 @@ export const login = async (req, res) => {
     
         try {
             if (!req.user) {
-                return res.status(401).send("Usuario o contraseña no validos")
+                return res.status(401).send("Usuario o contraseña NO validos")
             }
     
             req.session.user = {
@@ -31,7 +31,7 @@ export const current = async (req, res) => {
             console.log(req)
             res.status(200).send("Usuario logueado");
         } else {
-            res.status(401).send("Usuario no autenticado");
+            res.status(401).send("Usuario NO autenticado");
         }
     } catch (e) {
         res.status(500).send("Error al verificar usuario actual");
@@ -110,7 +110,7 @@ export const changePassword = async( req, res) => {
         if(e?.message == 'jwt expired') {
             res.status(400).send("Expiró el tiempo del Token. Se enviará otro email con nuevo token")
         }
-            res.status(500).send(e)
+            res.status(500).send("e")
 
 
     }
@@ -132,7 +132,7 @@ export const sendEmailPassword = async (req, res) => {
         }
     } catch (e) {
         console.log(e)
-        res.status(500).send(e)
+        res.status(500).send("e")
     }
     
 }

@@ -56,7 +56,6 @@ export const createProduct = async (req, res) => {
             res.status(403).send("Usuario NO autorizado")
         }
 
-
     } catch (error) {
         res.status(500).send(`Error interno del servidor al crear producto: ${error}`)
     }
@@ -88,7 +87,7 @@ export const deleteProduct = async (req, res) => {
             const mensaje = await productModel.findByIdAndDelete(idProducto)
             res.status(200).send(mensaje)
         } else {
-            res.status(403).send("Usuario no autorizado")
+            res.status(403).send("Usuario NO autorizado")
         }
 
     } catch (error) {
