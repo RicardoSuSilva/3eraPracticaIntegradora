@@ -1,0 +1,288 @@
+paths:
+  /api/cart/:
+    post:
+      summary: Crear un nuevo carrito
+      tags: 
+        - Cart
+      responses:
+        '201':
+          description: Carrito creado correctamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Ticket'
+        '500':
+          description: Error al crear carrito
+
+  /api/cart/{cid}/:
+    get:
+      summary: Obtener un carrito
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            $type: String
+          description: Id del carrito a buscar 
+      responses: 
+        '200':
+          description: Carrito obtenido correctamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '404': 
+          description: Carrito no encontrado
+        '500':
+          description: Error al obtener carrito    
+
+    put:
+      summary: Actualizar el carrito 
+      tags: 
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            $type: String
+          description: Id del carrito a actualizar
+      responses:
+        '200':
+          description: Carrito actualizado correctamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '403': 
+          description: Usuario no Autorizado
+        '500':
+          description: Error actualizar el carrito
+
+    delete:
+      summary: Vaciar el carrito 
+      tags: 
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            $type: String
+          description: Id del carrito a vaciar
+      responses:
+        '200':
+          description: Carrito vaciado correctamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '403': 
+          description: Usuario no Autorizado
+        '500':
+          description: Error vaciar el carrito
+
+  /api/cart/{cid}/{pid}/:
+    post:
+      summary: Insertar productos al carrito carrito
+      tags: 
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            $type: String
+          description: Id del carrito
+        - name: pid
+          in: path
+          required: true
+          schema:
+            $type: String
+          description: Id del producto a agregar al carrito
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: Object
+            properties:
+              quantity:
+                type: Number
+      responses:
+        '200':
+          description: Productos agregados al carrito correctamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '403': 
+          description: Usuario no Autorizado
+        '500':
+          description: Error al agregar productos al carrito 
+    
+    put:
+      summary: Actualizar la cantidad de un producto en el carrito 
+      tags: 
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            $type: String
+          description: Id del carrito
+        - name: pid
+          in: path
+          required: true
+          schema:
+            $type: String
+          description: Id del producto a actualizar cantidad en el carrito
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: Object
+            properties:
+              quantity:
+                type: Number
+      responses:
+        '200':
+          description: Cantidad del producto actualizada en el carrito correctamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '403': 
+          description: Usuario no Autorizado
+        '404':
+          description: El producto no existe en el carrito
+        '500':
+          description: Error actualizar la cantidad de un producto del carrito
+          
+    delete:
+      summary: Eliminar un producto del carrito 
+      tags: 
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            $type: String
+          description: Id del carrito
+        - name: pid
+          in: path
+          required: true
+          schema:
+            $type: String
+          description: Id del producto a eliminar del carrito
+      responses:
+        '200':
+          description: Producto eliminado del carrito correctamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Cart'
+        '403': 
+          description: Usuario no Autorizado
+        '404':
+          description: El producto no existe en el carrito
+        '500':
+          description: Error al eliminar un producto del carrito
+
+  /api/cart/purchase/{cid}:
+    get:
+      summary: Obtener el ticket de compra
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            $type: String
+          description: Id del carrito a buscar 
+      responses: 
+        '200':
+          description: Ticket creado correctamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Ticket'
+        '404':
+          description: Carrito no encontrado
+        '500':
+          description: Error al crearel ticket
+
+components:
+  schemas: 
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id del carrito autogenerado por MongoDB
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              id_prod:
+                type: ObjectId
+                description: Id del producto autogenerado por MongoDB
+              quantity: 
+                type: Number
+                description: Cantidad de unidades del producto 
+      example:
+        products:
+          id_prod: 467dfksjd5453
+          quantity: 2
+  
+    Ticket:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id del carrito autogenerado por MongoDB
+        code: 
+          type: String
+          description: Código del ticket de compra
+        purchase_datetime: 
+          type: Date
+          description: Fecha de la compra
+        amount: 
+          type: Number
+          description: Precio total de la compra
+        purchaser: 
+          type: String
+          descripcion: Info del comprador
+        products: 
+          type: array
+          items:
+            type: object
+            properties:
+              id_prod:
+                type: ObjectId
+                description: Id del producto autogenerado por MongoDB
+              quantity: 
+                type: Number
+                description: Cantidad de unidades del producto 
+      example:
+        _id: 346723jhdfjh347856
+        code: w32462873468-34234234-32434
+        amount: 53700
+        purchaser: gustavo@gomez.com
+        products: 
+          id_prod: 345634fdsf234
+          quantity: 1
+        purchase_datetime: 2024-05-27T18:34:30.045+00:00

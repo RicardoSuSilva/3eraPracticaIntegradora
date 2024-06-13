@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import passport from 'passport'
-import { createCart, getCart, insertProductCart, createTicket } from '../controllers/cartController.js'
+import { createCart, getCart, insertProductCart, createTicket, updateCart, uddateQuantity, deleteProductCart } from '../controllers/cartController.js'
 
 const cartRouter = Router()
 
@@ -8,9 +8,17 @@ cartRouter.post('/', createCart)
 
 cartRouter.get('/:cid', getCart)
 
+cartRouter.put('/:cid', passport.authenticate('jwt', { session: false }), updateCart);
+
+cartRouter.delete('/:cid', passport.authenticate('jwt', { session: false }), emptyCart)
+
 cartRouter.post('/:cid/:pid', passport.authenticate('jwt', { session: false }), insertProductCart)
 
-cartRouter.post('/:cid/purchase', createTicket)
+cartRouter.put('/:cid/:pid', passport.authenticate('jwt', { session: false }), updateQuantity)
+
+cartRouter.delete('/:cid/:pid', passport.authenticate('jwt', { session: false }), deleteProductCart)
+
+cartRouter.get('/purchase/:cid',  passport.authenticate('jwt', { session: false }), createTicket)
 
 export default cartRouter
 

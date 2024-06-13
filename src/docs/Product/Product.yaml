@@ -1,0 +1,187 @@
+paths:
+  /api/products/:
+    get:
+      summary: Obtener todos los productos
+      tags:
+        - Products
+      responses: 
+        '200':
+          description: Productos obtenidos correctamente
+          content:
+            application/json:
+              schema:
+                type: array 
+                items:
+                  $ref: '#/components/schemas/Product'
+        '500':
+          description: Error al obtener productos
+    
+    post:
+      summary: Crear un nuevo producto
+      tags: 
+        - Products
+      parameters:
+        - name: body
+          in: body
+          required: true
+          chema:
+            type: String
+            properties:
+              title:
+                type: String
+              description:
+                type: String
+              price:
+                type: Number
+              stock:
+                type: Number
+              code:
+                type: String
+              category:
+                type: String
+      responses:
+        '201':
+          description: Producto creado correctamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Product'
+        '403': 
+          description: Usuario no Autorizado
+        '500':
+          description: Error al crear productos
+
+  /api/products/{pid}:
+    get:
+      summary: Obtener un producto 
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            $type: String
+          description: Id del producto a buscar 
+      responses:
+        '200':
+          description: Producto obtenido correctamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Product'
+        '404':
+          description: producto no existe
+        '500':
+          description: Error al obtener producto
+
+    put:
+      summary: Actualizar un producto
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            $type: String
+          description: Id del producto a actualizar
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              title:
+                type: String
+              description:
+                type: String
+              price:
+                type: Number
+              stock:
+                type: Number
+              code:
+                type: String
+              category:
+                type: String
+      responses:
+        '200':
+          description: Producto actualizado correctamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Product'
+        '403': 
+          description: Usuario no Autorizado
+        '500':
+          description: Error al actualizar Producto
+
+    delete:
+      summary: Eliminar un producto
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            $type: String
+          description: Id del producto a eliminar
+      responses:
+        '200':
+          description: Producto eliminado correctamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Product'
+        '403': 
+          description: Usuario no Autorizado
+        '500':
+          description: Error al eliminar producto
+
+components:
+  schemas: 
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado por MongoDB
+        title: 
+          type: String
+          description: Nombre de mi producto
+        description:
+          type: String
+          description: Descripción de mi producto
+        price:
+          type: Number
+          description: Precio de mi producto
+        stock: 
+          type: Number
+          description: Stock de mi producto 
+        code: 
+          type: String
+          description: Código de mi producto 
+        category: 
+          type: String
+          description: Categoría de mi producto 
+        status: 
+          type: Boolean
+          description: Estado de mi producto 
+        thumbnail: 
+          type: Array
+          description: Imagen de mi producto 
+      example:
+        _id: 672gdjdy632
+        title: La viuda, de Fiona Barton
+        description: Libro de misterio
+        price: 38000
+        stock: 123
+        code: LV-FB
+        category: misterio
+        status: true
+        thumbnail: []

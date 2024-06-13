@@ -1,0 +1,56 @@
+paths:
+  /api/users/:
+    get:
+      summary: Obtener todos los usuarios
+      tags:
+        - Users
+      responses: 
+        '200':
+          description: Usuarios obtenidos correctamente
+          content:
+            application/json:
+              schema:
+                type: array 
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Error al obtener usuarios
+
+components:
+  schemas: 
+    User:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado por MongoDB
+        first_name: 
+          type: String
+          description: Nombre de mi usuario
+        last_name:
+          type: String
+          description: Apellido de mi usuario
+        age:
+          type: Number
+          description: Edad de mi usuario
+        email:
+          type: String
+          description: Email de mi usuario
+        password: 
+          type: String
+          description: Contraseña de mi usuario 
+        rol: 
+          type: String
+          description: Rol de mi usuario 
+        cart_id: 
+          type: ObjectId
+          description: Id del carrito de mi usuario
+      example:
+        _id: 672gdj6756dtyry632
+        first_name: Lorenzo
+        last_name: Lopez
+        age: 37
+        email: lorenzo@example.com
+        password: lorenzo1234
+        rol: User
+        cart_id: 3847jhdfkjhsdkjfh43756
