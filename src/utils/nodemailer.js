@@ -17,8 +17,8 @@ export const sendEmailChangePassword = async (email, linkChangePassword) => {
                  
         html: 
         `
-        <p>Haz click aquí para cambiar tu contraseña: </p> <button><a href=${linkChangePassword}>
-        Cambiar contraseña</a></button>
+        <p>Haz click aquí para cambiar tu contraseña: </p> 
+        <button> <a href=${linkChangePassword}> Cambiar contraseña</a></button>
         `
     }
 

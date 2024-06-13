@@ -43,7 +43,7 @@ const logger = winston.createLogger({
 
         new winston.transports.File({
             level: 'warning',
-            filename: './warning.log',
+            filename: './warnings.log',
             format: winston.format.simple()
         }),
 
@@ -85,4 +85,22 @@ export const addLogger = (req, res, next) => {
     req.logger = logger;
     req.logger.info(`Metodo: ${req.method} en ruta ${req.url} - ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`);
     next();
+};
+
+//logger test
+export const loggerTest = async (req, res) => {
+    try {
+
+        logger.fatal('Este es un mensaje de fatal');
+        logger.error('Este es un mensaje de error');
+        logger.warning('Este es un mensaje de warning');
+        logger.info('Este es un mensaje de info');
+        logger.http('Este es un mensaje de http');
+        logger.debug('Este es un mensaje de debug');
+        
+        res.send('Logs generados con éxito');
+    } catch (error) {
+        logger.error(`Error al generar logs: ${error.message}`);
+        res.status(500).send('Error interno del servidor');
+    }
 };

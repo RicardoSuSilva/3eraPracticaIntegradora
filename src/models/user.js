@@ -63,13 +63,15 @@ userSchema.pre('find', async function (next) {
         console.log(PRODS)
         // Rellena el campo 'cart_id' del documento de usuario actual con el documento de carrito referenciado
         this.populate('cart_id')
-    } catch (e) {
+    } catch (error) {
         // Si ocurre un error, pásalo al siguiente middleware en la cadena
-        next(e)
+        next(Error)
     }
 })
 
 
 //exporto una constante que va a ser igual a este modelo de nombre users y el siguiente esquema: userSchema*/
 
-export const userModel = model("users", userSchema)
+const userModel = model("users", userSchema)
+
+export default userModel;

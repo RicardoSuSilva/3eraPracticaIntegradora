@@ -4,6 +4,18 @@ import { login, register, sessionGithub, current, logout, testJWT, sendEmailPass
 
 const sessionRouter = Router()
 
+sessionRouter.get('/', (req, res) => {
+    res.render("templates/login", {
+        css: 'loginRegistro.css'
+    })
+})
+
+sessionRouter.get('/registroForm', (req, res) => {
+    res.render("templates/register", {
+        css: 'loginRegistro.css'
+    })
+})
+
 sessionRouter.get('/login', passport.authenticate('login'), login)
 
 sessionRouter.post('/register', passport.authenticate('register'), register)

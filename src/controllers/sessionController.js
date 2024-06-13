@@ -9,6 +9,8 @@ export const login = async (req, res) => {
     
         try {
             if (!req.user) {
+                req.logger.error(`Metodo: ${req.method} en ruta ${req.url} - ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}: Usuario o contraseña no validos`)
+
                 return res.status(401).send("Usuario o contraseña NO validos")
             }
     
@@ -16,37 +18,32 @@ export const login = async (req, res) => {
                 email: req.user.email,
                 first_name: req.user.first_name
             }
-    
+            req.logger.info("Sesión iniciada correctamente")
             res.status(200).send("Usuario logueado correctamente")
     
-        } catch (e) {
+        } catch (error) {
+            req.logger.error(`Metodo: ${req.method} en ruta ${req.url} - ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}: ${error.message}`)
             res.status(500).send("Error al loguear usuario")
         }
     }
 
 // ruta Current: verificando logueo de usuario, func. asincrona utiliz estrategia JWT
 export const current = async (req, res) => {
-    try {
-        if (req.user) {
-            console.log(req)
-            res.status(200).send("Usuario logueado");
-        } else {
-            res.status(401).send("Usuario NO autenticado");
-        }
-    } catch (e) {
-        res.status(500).send("Error al verificar usuario actual");
-    }
+    req.logger.info("Información del usuario logueado")
+    res.status(200).send("Usuario logueado")
 }
 
 export const register = async (req, res) => {
     try {
         if (!req.user) {
+            req.logger.error(`Metodo: ${req.method} en ruta ${req.url} - ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}: Usuario ya existente`)
             return res.status(400).send("Usuario ya existente en la aplicacion")
         }
-
+        req.logger.info("Usuario registrado correctamente")
         res.status(200).send("Usuario creado correctamente")
 
-    } catch (e) {
+    } catch (error) {
+        req.logger.error(`Metodo: ${req.method} en ruta ${req.url} - ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}: ${error.message}`)
         res.status(500).send("Error al registrar usuario")
     }
 
@@ -55,8 +52,12 @@ export const register = async (req, res) => {
 export const logout = async (req, res) => {
     req.session.destroy(function (e) {
         if (e) {
-            console.log(e)
+            req.logger.error(`Metodo: ${req.method} en ruta ${req.url} - ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}: ${error.message}`)
+            
+            return res.status(500).send("Error al cerrar sesión")
         } else {
+            req.logger.info("Sesión finalizada correctamente")
+
             res.status(200).redirect("/")
         }
 
@@ -75,10 +76,13 @@ export const sessionGithub = async (req, res) => {
 }
 //ruta JWT 
 export const testJWT = async (req, res) => {
-    console.log("Desde testJWT" + req.user)
-    if (req.user.rol == 'User')
+    req.logger.info("Desde testJWT" + req.user)
+    if (req.user.rol == 'User' || req.user.rol == "User Premiun"){
+        req.logger.error(`Metodo: ${req.method} en ruta ${req.url} - ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}: Usuario no autorizado`)    
+
         res.status(403).send("Usuario NO autorizado")
-    else
+    }else
+        req.logger.info("Usuario NO autorizado")
         res.status(200).send(req.user)
 }
 

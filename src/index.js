@@ -55,8 +55,23 @@ const io = new Server(server)
 
 //**** Connection MongoDB ******
 mongoose.connect(varenv.mongo_url)
-    .then(() => console.log("DB is connected"))
-    .catch(e => console.log(e))
+.then(() => console.log("DB is connected"))
+.catch(error => console.log(error))
+
+//****Documentacion API *****
+    const swaggerOptions = {
+        definition: {
+            openapi: '3.1.0',
+            info: {
+                title: 'Documentacion de la aplicacion',
+                description: 'Descripcion de la documentacion'
+            },
+        },
+        apis: [`${__dirname}/docs/**/*.yaml`]
+    }
+    
+    const specs = swaggerJSDoc(swaggerOptions)
+
 
 //***** Middlewares *******
 app.use(express.json())
@@ -86,6 +101,7 @@ app.set('views', __dirname + '/views')
 initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
+
 
 //***** Routes ******
 
